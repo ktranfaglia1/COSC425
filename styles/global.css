@@ -1,23 +1,37 @@
 /* Global styles page linked to entire website */
 /* General formatting */
-body {
-  background-color: #add8e6;
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-hr {
-  margin: 0;
-  border: none;
-  background-color: black;
-  height: 2px;
-  margin-bottom: 30px;
-}
 p {
   margin: 0 4%;
   font-family: Times;
+  text-align: left;
   font-size: 20px;
   line-height: 1.5;
+  color: black;
+}
+.p1 {
+  margin: 0;
+  font-family: Times;
+  text-align: center;
+  font-size: 17px;
+  line-height: 1.7;
+  color: black;
+}
+.p2 {
+  margin: 0;
+  display: block;
+  font-family: Times;
+  text-align: center;
+  font-size: 22px;
+  line-height: 2.0;
+  color: black;
+}
+.p3 {
+  margin: 0 6%;
+  font-family: Times;
   text-align: left;
+  font-size: 22px;
+  line-height: 1.5;
+  display: inline-block;
   color: black;
 }
 h1 {
@@ -45,48 +59,79 @@ h3 {
   text-align: left;
   color: black;
 }
+h4 {
+  margin: 6px 0 12px 0;
+  font-family: Times;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+}
+h5 {
+  margin: 0;
+  font-family: Times;
+  font-size: 42px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+}
+h6 {
+  margin: 12px 0 12px 4%;
+  font-family: Times;
+  font-size: 32px;
+  text-align: left;
+  color: black;
+}
 /* Navigation formatting */
 .navbar {
+  display: flex;
   background-color: black;
   overflow: hidden;
+  height: 60px;
 }
-.navbar a {
+.navbar a:not(.logo) {
   font-size: 16px;  
+  text-align: center;
   float: left;
   display: block;
   color: whitesmoke;
-  text-align: center;
-  padding: 20px 24px;
+  padding: 22px 24px;
   text-decoration: none;
 }
-.navbar a:hover {
+.navbar a:not(.logo):hover {
   background-color: lightgray;
   color: black;
 }
+/* Navbar logo formatting */
+.logo {
+  height: 100%;
+  width: auto;
+}
 /* Simulation dropdown and button formatting in navigation bar */
-.dropdown {
+.navbar .dropdown {
   float: left;
   overflow: hidden;
 }
-.drop_button {
+.navbar .drop_button {
+  margin: 0;
   border: none;
   outline: none;
   color: whitesmoke;
-  padding: 20px 24px;
+  padding: 22px 24px;
   background-color: inherit;
   font-size: inherit;
   font-family: inherit;
-  margin: 0;
 }
-.dropdown_item {
+.navbar .dropdown_item {
   display: none;
   position: absolute;
+  top: 60px;
   background-color: #f9f9f9;
   min-width: 125px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
-.dropdown_item a {
+.navbar .dropdown_item a {
   float: none;
   color: black;
   padding: 12px 16px;
@@ -94,10 +139,10 @@ h3 {
   display: block;
   text-align: left;
 }
-.dropdown_item a:hover {
+.navbar .dropdown_item a:hover {
   background-color: #ddd;
 }
-.dropdown:hover .dropdown_item {
+.navbar .dropdown:hover .dropdown_item {
   display: block;
 }
 /* Large button formatting: used for secondary tool bar */
@@ -158,7 +203,8 @@ h3 {
   justify-content: center;
   align-items: center;
   max-width: 98%;
-  margin: 0 auto;
+  margin: 0;
+  margin-top: 30px;
 }
 /* Secondary tool bar formatting */
 .secondary_toolbar {
@@ -171,9 +217,11 @@ h3 {
 } 
 /* Container for store multiple elements on the same row: used for primary tool bar */
 .input_container {
+  justify-content: center;
   display: flex;
   margin-left: .75%;
   margin-right: .75%;
+  max-width: 95%;
 }
 /* input (submit) button, input box, and input label formatting */
 .input_label {
@@ -186,7 +234,7 @@ h3 {
 }
 .submit_button {
   padding: 8px 8px;
-  border: 2px solid #8a2be2;
+  border: 1px solid black;
   background-color: #9570DB;
   color: whitesmoke;
   font-size: 15px;
@@ -210,7 +258,7 @@ h3 {
 }
 .about_content {
   background-color: #fefefe;
-  margin: 8% auto;
+  margin: 7% auto;
   border: 2px solid #888;
   padding: 1% 1% 1% 1%;
   width: 70%;
@@ -226,4 +274,36 @@ h3 {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+/* Options window formatting */
+.options_container {
+  display: none;
+  position: fixed;
+  right: 0;
+  top: 138px;
+  width: 250px;
+  height: 520px;
+  background-color: #fefefe;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.4);
+}
+.options_content {
+  padding: 20px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+.options_button {
+  display: block;
+  width: 80%;
+  margin: 0 0 10px 10%;
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid black;
+  border-radius: 10px; 
+  background-color: rgb(105, 187, 255);
+  color: black;
+  cursor: pointer;
+}
+.options_button:hover {
+  background-color: rgb(90, 167, 235);
 }

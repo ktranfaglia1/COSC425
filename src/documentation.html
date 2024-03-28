@@ -6,12 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- Define the viewport for responsive design -->
     <title> Discrete Mathematical Systems </title>
     <link rel="stylesheet" type="text/css" href="../styles/global.css">  <!-- Link to global CSS styles -->
-    <link rel="stylesheet" type="text/css" href="../styles/home.css">  <!-- Link to home specific CSS styles -->
+    <link rel="stylesheet" type="text/css" href="../styles/documentation.css">  <!-- Link to home specific CSS styles -->
+    <link rel="icon" href="../images/cellular_automata_logo.png">  <!-- Link page icon -->
   </head>
   <body>
     <!-- Navigation Bar-->
     <header>
       <div class="navbar">
+        <a href="../src/index.html" class="logo">
+          <img src="../images/cellular_automata_logo.png" alt="Logo" width="70" height="70">
+        </a>
         <a href="../src/index.html"> Home </a>  <!-- Link to the home page -->
         <!-- Dropdown menu for simulators -->
         <div class="dropdown">
@@ -24,9 +28,81 @@
           </div>
         </div>
         <a href="../src/documentation.html"> Documentation </a>  <!-- Link to the documentation page -->
-        <a href="../src/index.html"> Source </a>  <!-- Link to the source code page -->
+        <a href="https://github.com/ktranfaglia1/COSC425" target="_blank"> Source </a>  <!-- Link to the source code page -->
         <a href="../src/about.html"> About </a>  <!-- Link to the about page -->
       </div>
     </header>
+    <h1> Learn The Program! </h1> <hr>
+    <div class="sidebar">
+      <ul class="main_menu">
+        <li class="menu_item">
+          <span class="menu_title"> 1D Nearest Neighbor </span>
+          <ul class="submenu">
+            <li> <a href="#primaryToolbar" class="subtitle"> Primary Toolbar </a> </li>
+            <li> <a href="#boundaryConditions" class="subtitle"> Boundary Conditions </a> </li>
+            <li> <a href="#secondaryToolbar" class="subtitle"> Secondary Toolbar </a> </li>
+            <li> <a href="#options" class="subtitle"> Options </a> </li>
+            <li> <a href="#logBox" class="subtitle"> Log Box </a> </li>
+            <li> <a href="#canvas" class="subtitle"> Canvas </a> </li>
+          </ul>
+        </li>
+        <li class="menu_item">
+          <span class="menu_title"> 2D Nearest Neighbor </span>
+          <ul class="submenu">
+            <li> <a href="#subcategory1" class="subtitle"> Subcategory 1 </a> </li> <!-- Subcategory 1 -->
+            <li> <a href="#subcategory2" class="subtitle"> Subcategory 2 </a> </li>
+          </ul>
+        </li>
+        <li class="menu_item">
+          <span class="menu_title"> Game of Life </span>
+          <ul class="submenu">
+            <li> <a href="#subcategory1" class="subtitle"> Subcategory 1 </a> </li> <!-- Subcategory 1 -->
+            <li> <a href="#subcategory2" class="subtitle"> Subcategory 2 </a> </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="doc_content">
+      <h6 id="primaryToolbar"> Primary Toolbar </h6>
+      <div class="p3">
+         <u>Iteration Input Box</u>: 
+      </div> 
+      <div class="p3">
+        <u>Rule Input Box</u>:
+      </div> 
+      <div class="p3">
+        <u>Lattice Input Box</u>:
+      </div> 
+      <h6 id="boundaryConditions"> Boundary Conditions </h6>
+      <div class="p3"> 
+        This is sjh js jshh jsh js js sj sj sjh jfsfjhs j shj sjj hfsjh sjhf jshs s jsfnh jshn fjsh jsh jsfh jsh jsh jhj fbnhksdfbhfasjhkbafbhjafjh fjsh jhs js hsj jsfh jsh fjsh jf smething 
+      </div>
+      <h6 id="secondaryToolbar"> Secondary Toolbar </h6>
+      <div class="p3"> 
+        This is sjh js jshh jsh js js sj sj sjh jfsfjhs j shj sjj hfsjh sjhf jshs s jsfnh jshn fjsh jsh jsfh jsh jsh jhj fbnhksdfbhfasjhkbafbhjafjh fjsh jhs js hsj jsfh jsh fjsh jf smething 
+      </div>
+      <h6 id="options"> Options </h6>
+      <div class="p3"> 
+        This is sjh js jshh jsh js js sj sj sjh jfsfjhs j shj sjj hfsjh sjhf jshs s jsfnh jshn fjsh jsh jsfh jsh jsh jhj fbnhksdfbhfasjhkbafbhjafjh fjsh jhs js hsj jsfh jsh fjsh jf smething 
+      </div>
+      <h6 id="logBox"> Log Box </h6>
+      <div class="p3"> 
+        This is sjh js jshh jsh js js sj sj sjh jfsfjhs j shj sjj hfsjh sjhf jshs s jsfnh jshn fjsh jsh jsfh jsh jsh jhj fbnhksdfbhfasjhkbafbhjafjh fjsh jhs js hsj jsfh jsh fjsh jf smething 
+      </div>
+      <h6 id="canvas"> Canvas </h6>
+      <div class="p3"> 
+        This is sjh js jshh jsh js js sj sj sjh jfsfjhs j shj sjj hfsjh sjhf jshs s jsfnh jshn fjsh jsh jsfh jsh jsh jhj fbnhksdfbhfasjhkbafbhjafjh fjsh jhs js hsj jsfh jsh fjsh jf smething 
+      </div>
+    </div>
   </body>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
+<script>
+  // Uses jQuery online library to collapse the  list structure in the documentation sidebar and reveal subcategories
+  $(document).ready(function() {
+    $('.menu_title').click(function() {
+      $(this).toggleClass('active');  // Toggle active class on main menu title
+      $(this).siblings('.submenu').toggleClass('active');  // Toggle active class on submenu
+    });
+  });
+</script>

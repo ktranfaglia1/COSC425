@@ -1,0 +1,70 @@
+/* Documentation styles page */
+/* General formatting */
+body {
+  background-color: whitesmoke;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+hr {
+  margin: 0;
+  border: none;
+  background-color: black;
+  height: 2px;
+  margin-bottom: 10px;
+}
+/* Sidebar formatting */
+.sidebar {
+  position: absolute;
+  top: 139px;
+  left: 0;
+  width: 200px;
+  height: 100%;
+  background-color: #add8e6;
+  padding: 20px;
+  overflow-y: auto;
+  border-right: 3px solid #444444;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.main_menu {
+  list-style-type: none;
+  padding: 0;
+}
+.menu_item {
+  margin-bottom: 10px;
+}
+.menu_title {
+  font-size: 18px;
+  line-height: 1.8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.menu_title::before {
+  content: "\25B6";
+  margin-right: 5px;
+  transition: transform 0.3s ease;
+}
+.menu_title.active::before {
+  transform: rotate(90deg);
+}
+.submenu {
+  display: none;
+  list-style-type: none;
+}
+.submenu.active {
+  display: block;
+}
+.subtitle {
+  font-size: 17px;
+  line-height: 1.6;
+  text-decoration: none;
+  color: black;
+}
+.subtitle:hover {
+  color: #666666;
+}
+/* Documentation text formatting */
+.doc_content {
+  margin-left: 200px;
+  padding: 20px;
+}

@@ -7,11 +7,15 @@
     <title> Discrete Mathematical Systems </title>
     <link rel="stylesheet" type="text/css" href="../styles/global.css">  <!-- Link to global CSS styles -->
     <link rel="stylesheet" type="text/css" href="../styles/wolfram1D.css">  <!-- Link to home specific CSS styles -->
+    <link rel="icon" href="../images/cellular_automata_logo.png">  <!-- Link page icon -->
   </head>
   <body>
     <!-- Navigation Bar-->
     <header>
       <div class="navbar">
+        <a href="../src/index.html" class="logo">
+          <img src="../images/cellular_automata_logo.png" alt="Logo" width="70" height="70">
+        </a>
         <a href="../src/index.html"> Home </a>  <!-- Link to the home page -->
         <!-- Dropdown menu for simulators -->
         <div class="dropdown">
@@ -24,7 +28,7 @@
           </div>
         </div>
         <a href="../src/documentation.html"> Documentation </a>  <!-- Link to the documentation page -->
-        <a href="../src/index.html"> Source </a>  <!-- Link to the source code page -->
+        <a href="https://github.com/ktranfaglia1/COSC425" target="_blank"> Source </a>  <!-- Link to the source code page -->
         <a href="../src/about.html"> About </a>  <!-- Link to the about page -->
       </div>
     </header>
@@ -32,38 +36,38 @@
     <!-- Primary tool bar containing input boxes and options to manipulate the simulation -->
     <div class="primary_toolbar">
       <div class="input_container">
-        <label for="inputBox1" class="input_label"> Iterations:</label>
-        <input type="text" id="inputBox1" class="simulation_input" placeholder="Enter # of iterations...">
-        <button id="submitButton1" class="submit_button"> Enter </button>
+        <label for="iterationInputBox" class="input_label"> Iterations:</label>
+        <input type="text" id="iterationInputBox" class="simulation_input" placeholder="Enter # of iterations...">
+        <button id="iterationSubmit" class="submit_button"> Enter </button>
       </div>
       <!-- Container for rule input box -->
       <div class="input_container">
-        <label for="inputBox2" class="input_label"> Rule: </label>
-        <input type="text" id="inputBox2" class="simulation_input" placeholder="Enter rule # (0-255)...">
-        <button id="submitButton2" class="submit_button"> Enter </button>
+        <label for="ruleInputBox" class="input_label"> Rule: </label>
+        <input type="text" id="ruleInputBox" class="simulation_input" placeholder="Enter rule # (0-255)...">
+        <button id="ruleSubmit" class="submit_button"> Enter </button>
       </div>
       <!-- Container for lattice size input box -->
       <div class="input_container">
-        <label for="inputBox3" class="input_label"> Lattice: </label>
-        <input type="text" id="inputBox3" class="simulation_input" placeholder="Enter lattice size...">
-        <button id="submitButton3" class="submit_button"> Enter </button>
+        <label for="latticeSizeBox" class="input_label"> Lattice: </label>
+        <input type="text" id="latticeSizeBox" class="simulation_input" placeholder="Enter lattice size...">
+        <button id="latticeSizeSubmit" class="submit_button"> Enter </button>
       </div>
       <!-- Container for finite/infinite toggle bar -->
       <div class="input_container">
         <!-- Create Toggle bar and use Javascript function to handle click -->
         <label class="toggle_label"> Infinite </label>
-        <div class="toggle_bar" id="toggle_bar1">
+        <div class="toggle_bar" id="boundToggle">
           <div class="toggle_button"> </div>
         </div>
         <label class="toggle_label"> Finite </label>
       </div>
       <!-- Create periodic checkbox -->
-      <div class="checkbox_container" id="checkbox1">
+      <div class="checkbox_container" id="periodicCheckBox">
         <input type="checkbox" class="checkbox_select">
         <label class="checkbox_label"> Periodic </label>
       </div>
       <!-- Create null checkbox -->
-      <div class="checkbox_container" id="checkbox2">
+      <div class="checkbox_container" id="nullCheckBox">
         <input type="checkbox" class="checkbox_select">
         <label class="checkbox_label"> Null </label>
       </div>
@@ -71,17 +75,52 @@
     <!-- Secondary tool bar containing main buttons and log box for simulation -->
     <div class="secondary_toolbar">
       <!-- Container for iteration input box -->
-      <button id="bigButton1" class="start_button"> Start </button>
-      <button id="bigButton2" class="simulation_button"> Iterate </button>
-      <button id="bigButton3" class="simulation_button"> Clear </button>
-      <button id="bigButton4" class="simulation_button"> Download </button>
-      <button id="bigButton5" class="simulation_button"> About </button>
+      <button id="startStopButton" class="start_button"> Start </button>
+      <button id="iterateButton" class="simulation_button"> Iterate </button>
+      <button id="clearButton" class="simulation_button"> Clear </button>
+      <button id="optionsButton" class="simulation_button"> Options </button>
+      <button id="aboutButton" class="simulation_button"> About </button>
       <canvas id="logRegion" class="log_box"> </canvas>  <!-- Display region for the logs -->
     </div>
     <div id="iterationOutput" class="iteration_output"> </div>  <!-- Output region for iteration count -->
     	<center> <canvas id="latticeRegion" class="lattice_region"> </canvas>  
 		<canvas id="tickmarkRegion" class="tickmark_region"> </canvas>
 	</center>
+    <center> <canvas id="latticeRegion" class="lattice_region"> </canvas> </center> <!-- Display region for the lattices -->
+    <!-- Options window to provide advanced options for simulator -->
+    <div id="optionsContainer" class="options_container">
+      <div id="optionsContent" class="options_content">
+        <span class="close"> &times; </span>
+        <h4> Options </h4> <hr>
+        <button id="downloadPDFButton" class="options_button"> Download PDF </button>
+        <button id="downloadPNGButton" class="options_button"> Download PNG </button>
+        <hr>
+        <button id="CellColorButton" class="options_button"> Fill Lattice </button>
+        <button id="CellColorButton" class="options_button"> Cell Color </button>
+        <hr>
+        <div class="p1"> Iteration Box </div>
+        <div class="input_container">
+          <label class="toggle_label"> Off </label>
+          <div class="options_toggle_bar" id="iterationToggle">
+            <div class="toggle_button"> </div>
+          </div>
+          <label class="toggle_label"> On </label>
+        </div>
+        <div class="p1"> Cell Borders </div>
+        <div class="input_container">
+          <label class="toggle_label"> Off </label>
+          <div class="options_toggle_bar" id="borderToggle">
+            <div class="toggle_button"> </div>
+          </div>
+          <label class="toggle_label"> On </label>
+        </div>
+        <hr>
+        <div class="slider_container">
+          <div class="p1"> Speed: <span id="iterationSpeedValue"> </span> ms </div>
+          <input type="range" min="0" max="2000" value="750" class="slider" id="iterationSpeedSlider">
+        </div>
+      </div>
+    </div>
     <!-- About window to provide information on Wolfram's Nearest Neighbor -->
     <div id="aboutContainer" class="about_container">
       <div id="aboutContent" class="about_content">
@@ -99,8 +138,7 @@
         </p>
         <h3> Purpose </h3>
         <p>
-          The study of 1-dimensional cellular automata, particularly focusing on nearest neighbor interactions, has several important purposes
-          and impacts that includes the following:
+          The study of 1-dimensional cellular automata, particularly nearest neighbor interactions, has the following purposes:
         </p>
         <ul>
           <li>

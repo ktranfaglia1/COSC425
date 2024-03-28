@@ -1,0 +1,36 @@
+/* Home styles page */
+/* General formatting */
+body {
+  background-color: whitesmoke;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+hr {
+  margin: 5px 0 10px 0;
+  border: none;
+  border-top: 6px dashed black;
+}
+/* Image formatting */
+.image_container {
+  display: flex;
+  justify-content: center;
+  margin: 2% 0 1% 0;
+}
+/* Large button formatting */
+.navigate_button {
+  background-color: black;
+  color: blueviolet;
+  padding: 72px 36px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 28px;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin: 2% 3% 0 3%;
+  cursor: pointer;
+}
+.navigate_button:hover {
+  background-color: rgb(32, 32, 32);
+}

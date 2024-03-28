@@ -48,6 +48,9 @@ const iterateButton = document.getElementById("bigButton2");
 const clearButton = document.getElementById("bigButton3");
 const downloadButton = document.getElementById("bigButton4");
 const aboutButton = document.getElementById("bigButton5");
+const downloadPDFButton = document.getElementById("downloadPDFButton");
+const downloadPNGButton = document.getElementById("downloadPNGButton");
+const optionsButton = document.getElementById("optionsButton");
 
 //Sets up checkboxes for Infinite and Finite
 const infiniteCheckBox = document.getElementById('checkbox1');
@@ -60,15 +63,38 @@ const toggleBar = document.getElementById('toggle_bar1')
 const toggleButton = document.querySelector('.toggle_button');
 
 // gets top layer of canvas used for ticks
+/* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 
+const periodicCheckBox = document.getElementById("periodicCheckBox");
+const nullCheckBox = document.getElementById("nullCheckBox");
+
+const boundToggle = document.getElementById("boundToggle");
+const iterationToggle = document.getElementById("iterationToggle");
+const borderToggle = document.getElementById("borderToggle");
+
+const aboutWindow = document.getElementById("aboutContainer");
+const optionsWindow = document.getElementById("optionsContainer");
+
+const iterationSpeedSlider = document.getElementById("iterationSpeedSlider");
+const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 
 const popTime = 3000; //Time Log messages stay on the screen
 
-let addIterations = 1; // Defaults iterations to add to 1
+/* Global constants connecting HTML/CSS features to JS by class name to impliment functionality */
+const checkboxes = document.querySelectorAll(".checkbox_select");
+const boundToggleButton = document.querySelector("#boundToggle .toggle_button");
+const iterationToggleButton = document.querySelector("#iterationToggle .toggle_button");
+const borderToggleButton = document.querySelector("#borderToggle .toggle_button");
+const closeAbout = document.querySelector("#aboutContent .close");
+const closeOptions = document.querySelector("#optionsContent .close");
+
+/* Global variables for iteration */
+let addIterations = 0; // Defaults iterations
 let Run = 0; // Defaults to not keep running
 let iterationTime = 1400; //Time to wait before iterating again
 let tickerToggle = 1; //Ticker toggle decides if row ticker will be on defaults to on
 
+// toggleCheckbox(); // Call function to defualt finte (periodic) simulation instead of finite
 
 let messageQueue = []
 
@@ -97,9 +123,22 @@ iterateButton.addEventListener("click", function()
 
 clearButton.addEventListener("click", function()
 {clear(latticeArray, canvas);});
+/* Connect UI Functionality to a prebuilt function */
+boundToggle.addEventListener("click", function() {
+	toggleCheckbox();
+});
 
-iterationSubmit.addEventListener("click", function()
-{setLatticeSize();});
+iterationToggle.addEventListener("click", function() {
+	iterationToggleOption();
+});
+
+borderToggle.addEventListener("click", function() {
+	borderToggleOption();
+});
+
+iterateButton.addEventListener("click", function() {
+	iterate(currentIteration, addIterations);
+});
 
 /*ruleSubmit.addEventListener("click", function()
 {setRule(rule);})*/
@@ -110,31 +149,63 @@ latticeSizeSubmit.addEventListener("click", function()
 
 //Continously Checks where the mouse is on the Canvas too allow tick box to next to it
 tickCanvas.addEventListener("mousemove", function(event) {makeTickBox(event, tctx)});
+clearButton.addEventListener("click", function() {
+	clear(latticeArray);
+});
+
+iterationSubmit.addEventListener("click", function() {
+	setLatticeSize();
+});
+
+ruleSubmit.addEventListener("click", function() {
+	setRule(rule);
+});
+
+startStopButton.addEventListener("click", function() {
+	startStopToggle();
+});
+
+// Continously Checks where the mouse is on the Canvas too allow tick box to next to it
+canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
+
+startStopButton.addEventListener("click", function() {
+	if (Run != 1) {
+		Run = 1;
+		continouslyIterate();
+	}
+	else {
+		Run = 0;
+	}
+})
 
 // Runs program to flips squares if Clicked
 tickCanvas.addEventListener('click', function(event)
 {
 	let mouseX, mouseY;
-	[mouseX, mouseY] = getMouseLocation(event); //Calculates Proper location of mouse click for usage in setCells
-	setCells(latticeArray, mouseX, mouseY);	//Flips the cell if it was clicked on
+	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of mouse click for usage in setCells
+	setCells(latticeArray, mouseX, mouseY);	// Flips the cell if it was clicked on
 });
 
+// Sets the number of cells in a lattice
+latticeSizeSubmit.addEventListener("click", function() {
+	updateLatticeSize();
+})
 
+function updateLatticeSize() {
+	alterLatSize(setCellNum(latSize)); //updates latSize to no latSize
+	
+	//Sets cells to maximize usage of the canvas
+	alterSize(canvas.width / latSize);
 
-startStopButton.addEventListener("click", function(event)
-{
-	if (Run != 1)
-	{
-		Run = 1;
-		console.log(iterationTime);
-		makeLog("Starting Iterations", logCanvas, messageQueue);
-		continouslyIterate(iterationTime);
+	//Cells should have a maximum size of 45 :: This Caps cell size to 45
+	if (size > 45){
+		size = 45; 
 	}
 	else {
 		Run = 0;
 		makeLog("Stopping Iterations", logCanvas, messageQueue);
 	}
-})
+}
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() {
 	//latSize = setCellNum(latSize);
@@ -202,11 +273,10 @@ function makeTickBox(event, ctx)
 	}
 }
 
-
 //repeatly iterates while run is true
 function continouslyIterate(iterationTime)
 {
-	if(Run) //Checks if Run is activate
+	if (Run) //Checks if Run is activate
 	{
 		setTimeout(function(){ // puts a wait before iterating again
 		//console.log(iterationTime);
@@ -214,11 +284,12 @@ function continouslyIterate(iterationTime)
 		continouslyIterate(iterationTime); // allows it to coninously run by calling it again
 		}, iterationTime);
 	}
+	else {
+		startStopToggle(currentIteration);
+	}
 }
 
-
-function setRule()
-{
+function setRule() {
 	let newRule = parseInt(ruleInputBox.value); //Turns input in rule input box into a number
 	Run = 0; //Tells continous to not run
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255) //Checks if integer was a real integer and if its in the required range of the function
@@ -234,8 +305,7 @@ function setRule()
 }
 
 //Sets new number of cells in a lattice
-/*function setCellNum(latSize)
-{
+function setCellNum(latSize) {
 	let newCellNum = parseInt(latticeSizeBox.value); //Turns Input box input into a number
 	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) //Tests if input was truly an integer and then makes sure it was in the range of 1 and 1000 to make sure not too big
 	{
@@ -247,11 +317,10 @@ function setRule()
 	} //outputs the error to console currently
 
 	return latSize; //returns the new lattice Size
-}*/
+}
 
 //sets Number of Lattice arrays to have
-function setLatticeSize() 
-{
+function setLatticeSize() {
 	let newValue = parseInt(iterationInputBox.value); //Turns the iteration input to an integer
 	Run = 0; //sets run to stop
 	if(!isNaN(newValue) && newValue > 0 && newValue <= 10000) //Input Validates for iteration box
@@ -276,16 +345,15 @@ function clear(latticeArray, canvas)
 	canvas.height = 350;
 	alterNumOfIterations(1);
 	alterCurrentIteration(1);
-	let clearedLattice = new Array ( new Array);
+	let clearedLattice = new Array (new Array);
 	alterNextLattice(new Array);
 	let StartX = (canvas.width / 2) - (latSize * size / 2)
 	let neoLatticeArray = latticeArray;
-	while (neoLatticeArray.length > 1){
+	while (neoLatticeArray.length > 1) {
 		neoLatticeArray.pop();
 	}
-	for (let i = 0; i < latSize; i++)
-	{
-		clearedLattice[0][i] = (new cell (size, size, StartX + i *size, 0, 0));
+	for (let i = 0; i < latSize; i++) {
+		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0));
 	}
 	neoLatticeArray[0] = clearedLattice[0].slice(0);
 	alterLatticeArray(neoLatticeArray);
@@ -296,8 +364,7 @@ function clear(latticeArray, canvas)
 }
 
 //Takes Coordinates of mouseClick and calculates properly where it is in relation to the canvas
-function setCells(latticeArray, mouseX, mouseY)
-{
+function setCells(latticeArray, mouseX, mouseY) {
 	let neoLatticeArray = latticeArray;
 	for (let i = 0 ; i < latticeArray[0].length; i++)
 	{
@@ -311,9 +378,7 @@ function setCells(latticeArray, mouseX, mouseY)
 
 }
 
-//Gets Mouse Location for events
-function getMouseLocation(event)
-{
+function getMouseLocation(event) {
 	//Gets the posistion of the edges of canvas
 	let bounds = canvas.getBoundingClientRect();
 
@@ -335,12 +400,10 @@ function getMouseLocation(event)
 	return [mouseX, mouseY];
 }
 
-
-function iterate(currentIteration, newIterations)
-{
-	if(numOfIterations + newIterations > addIterations)
+function iterate(currentIteration, newIterations) {
+	if (numOfIterations + newIterations > addIterations)
 	{
-		alterNumOfIterations(addIterations);
+		alterNumOfIterations(addIterations + 1);
 		Run = 0;
 	}
 	else
@@ -358,31 +421,81 @@ function iterate(currentIteration, newIterations)
 	return currentIteration;
 }
 
-// Handle when toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
+// Handle when bound toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
 export function toggleCheckbox() {
 	// Set the first checkbox (not second checkbox) to be checked upon toggle button activation
-	let checkboxes = document.querySelectorAll('.checkbox_select');
     checkboxes[0].checked = true;
 	checkboxes[1].checked = false;
 	// If checkboxes are currently hidden (toggle bar was not active) display the checkboxes and animate toggle button
-	if (infiniteCheckBox.style.display == 'none'|| infiniteCheckBox.style.display == '') {
-		infiniteCheckBox.style.display = 'block';
-		finiteCheckBox.style.display = 'block';
-		toggleButton.style.transform = 'translateX(25px)'; // Move the toggle button to the right
+	if (periodicCheckBox.style.display == 'none'|| periodicCheckBox.style.display == '') {
+		periodicCheckBox.style.display = 'block';
+		nullCheckBox.style.display = 'block';
+		boundToggleButton.style.transform = 'translateX(25px)'; // Move the toggle button to the right
 	// If checkboxes are currently not hidden (toggle bar was active) hide the checkboxes and animate toggle button back
     } else {
-		infiniteCheckBox.style.display = 'none';
-		finiteCheckBox.style.display = 'none';
-		toggleButton.style.transform = 'translateX(0)'; // Move the toggle button back to the left
+		periodicCheckBox.style.display = 'none';
+		nullCheckBox.style.display = 'none';
+		boundToggleButton.style.transform = 'translateX(0)'; // Move the toggle button back to the left
     }
 }
 
+/* Initialize toggle buttons to x position 0px to enable x translation in functions */
+iterationToggleButton.style.transform = "translateX(0px)";
+borderToggleButton.style.transform = "translateX(0px)";
+
+// Handle when iteration toggle button is activated
+function iterationToggleOption() {
+	// Toggle the position of the button
+	if (iterationToggleButton.style.transform == "translateX(0px)") {
+		iterationToggleButton.style.transform = "translateX(25px)";
+	} 
+	else {
+		iterationToggleButton.style.transform = "translateX(0px)";
+	}
+}
+
+// Handle when border toggle button is activated
+function borderToggleOption() {
+	// Toggle the position of the button
+	if (borderToggleButton.style.transform === "translateX(0px)") {
+		borderToggleButton.style.transform = "translateX(25px)";
+	} 
+	else {
+		borderToggleButton.style.transform = "translateX(0px)";
+	}
+}
+
+function outputError(text) {
+	errorContext.font = "12px Arial";
+	errorContext.fillStyle = "red";
+
+	errorContext.fillText(text, 5, 25)
+		setTimeout(function(){
+
+	}, 750);
+}
+
+// Handle switching GUI for Start/Stop Button upon click
+function startStopToggle() {
+	// If the button is in start state, change it to stop state and vice versa
+	if (startStopButton.classList.contains("start_button")) {
+    	startStopButton.innerHTML = "Stop";
+    	startStopButton.classList.remove("start_button");
+    	startStopButton.classList.add("stop_button");
+  	} 
+  	else {
+    	startStopButton.innerHTML = "Start";
+    	startStopButton.classList.remove("stop_button");
+    	startStopButton.classList.add("start_button");
+  	}
+}
+
 // Ensure one and only one checkbox can be checked at a time upon checkbox click
-document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
+checkboxes.forEach(function(checkbox) {
     checkbox.addEventListener('change', function() {
 		// Box is set to be checked upon change
         if (this.checked) {
-            document.querySelectorAll('.checkbox_select').forEach(function(otherCheckbox) {
+            checkboxes.forEach(function(otherCheckbox) {
 				// If one checkbox is already checked, uncheck the other checkbox
 				if (otherCheckbox != checkbox) {
                     otherCheckbox.checked = false;
@@ -436,7 +549,9 @@ function setPopLogTimer(messageQueue, logCanvas)
 }
 
 // Capture canvas as a PDF upon clickling the 'Download" button
-downloadButton.addEventListener('click', function () {
+//downloadButton.addEventListener('click', function () {
+// Capture canvas as a PDF upon clickling the 'Download PDF" button
+downloadPDFButton.addEventListener('click', function() {
 	let imgData = canvas.toDataURL("image/png");  // Get the image data from the canvas
 	let pdf = new jsPDF('p', 'pt', [canvas.width, canvas.height]);  // Create a new PDF document with the canvas dimensions as page size
 
@@ -467,37 +582,50 @@ downloadButton.addEventListener('click', function () {
 	makeLog("Downloaded Lattice Array", logCanvas, messageQueue);
 });
 
-// Handle switching GUI for Start/Stop Button upon click
-startStopButton.addEventListener("click", function() {
-	// If the button is in start state, change it to stop state and vice versa
-	if (startStopButton.classList.contains("start_button")) {
-    	startStopButton.innerHTML = "Stop";
-    	startStopButton.classList.remove("start_button");
-    	startStopButton.classList.add("stop_button");
-  	} 
-  	else {
-    	startStopButton.innerHTML = "Start";
-    	startStopButton.classList.remove("stop_button");
-    	startStopButton.classList.add("start_button");
-  	}
+// Capture canvas as a PNG upon clickling the 'Download PNG" button
+downloadPNGButton.addEventListener('click', function() {
+    let image = canvas.toDataURL();  // Get the image data from the canvas. Default is png
+    let link = document.createElement('a');  // Create a new anchor element to create a downloadable link
+    link.href = image;  // Set the href attribute of the anchor element to the data URL of the image
+    link.download = "Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".png";  // Set the filename
+	link.click();  // Trigger a click on the anchor element to prompt the browser to download the image
 });
 
-// Handle open and closing of About window
-// Open About button is clicked
+/* Handle open and closing of about window */
+// About button is clicked, display about window
 aboutButton.addEventListener("click", function() {
-	document.getElementById("aboutContainer").style.display = "block";
+	aboutWindow.style.display = "block";
 });
 
-// Close if x button in top right of the window is cliked
-document.querySelector(".close").addEventListener("click", function() {
-	document.getElementById("aboutContainer").style.display = "none";
+// Close if x (close) button in top right of the window is clicked
+closeAbout.addEventListener("click", function() {
+	aboutWindow.style.display = "none";
 });
 
-// Close if any space outside of the About window is clicked
+// Close if any space outside of the about window is clicked
 window.addEventListener("click", function(event) {
-	if (event.target == document.getElementById("aboutContainer")) {
-		document.getElementById("aboutContainer").style.display = "none";
+	// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
+	if (event.target == aboutWindow) {
+		aboutWindow.style.display = "none";
 	}
 });
+
+/* Handle open and closing of options window */
+// Options button is clicked, display options window
+optionsButton.addEventListener("click", function() {
+	optionsWindow.style.display = "block";
+});
+
+// Close if x (close) button in top right of the window is clicked
+closeOptions.addEventListener("click", function() {
+	optionsWindow.style.display = "none";
+});
+
+iterationSpeedValue.innerHTML = 750;  // Sets displayed default iteration speed value
+
+// Update the current iteration speed slider value upon drag
+iterationSpeedSlider.oninput = function() {
+	iterationSpeedValue.innerHTML = this.value;
+};
 
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page

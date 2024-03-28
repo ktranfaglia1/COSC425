@@ -1,0 +1,17 @@
+/* About styles page */
+/* General formatting */
+body {
+  background-color: whitesmoke;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('../images/dustin.jpg');
+  background-size: contain;
+  background-position: center;
+}
+hr {
+  margin: 0;
+  border: none;
+  background-color: black;
+  height: 2px;
+  margin-bottom: 10px;
+}

@@ -142,9 +142,14 @@ let ctx = canvas.getContext("2d"); // gets the lattice display region
 //Shows user what iteration we are currently on
 let outputIteration = document.getElementById("iterationOutput")
 
+<<<<<<< HEAD
 //Sets default Canvas Size
 canvas.width = 1400;
 canvas.height = 350;
+=======
+canvas.width = 1800;
+canvas.height = 400;
+>>>>>>> Kyles_Branch
 
 // pulls in Canvas used to display the ticker
 const tickCanvas = document.getElementById("tickmarkRegion");
@@ -173,7 +178,7 @@ timestep.
 let inf = false;
 let latSize = 10;
 let numOfIterations = 1;
-let currentIteration = 1;
+let currentIteration = 0;
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells

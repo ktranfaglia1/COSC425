@@ -1,0 +1,14 @@
+/* Wolfram2D styles page */
+/* General formatting */
+body {
+  background-color: whitesmoke;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+hr {
+  margin: 0;
+  border: none;
+  background-color: black;
+  height: 2px;
+  margin-bottom: 10px;
+}

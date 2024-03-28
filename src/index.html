@@ -7,11 +7,15 @@
     <title> Discrete Mathematical Systems </title>
     <link rel="stylesheet" type="text/css" href="../styles/global.css">  <!-- Link to global CSS styles -->
     <link rel="stylesheet" type="text/css" href="../styles/home.css">  <!-- Link to home specific CSS styles -->
+    <link rel="icon" href="../images/cellular_automata_logo.png">  <!-- Link page icon -->
   </head>
   <body>
     <!-- Navigation Bar-->
     <header>
       <div class="navbar">
+        <a href="../src/index.html" class="logo">
+          <img src="../images/cellular_automata_logo.png" alt="Logo" width="70" height="70">
+        </a>
         <a href="../src/index.html"> Home </a>  <!-- Link to the home page -->
         <!-- Dropdown menu for simulators -->
         <div class="dropdown">
@@ -24,9 +28,24 @@
           </div>
         </div>
         <a href="../src/documentation.html"> Documentation </a>  <!-- Link to the documentation page -->
-        <a href="../src/index.html"> Source </a>  <!-- Link to the source code page -->
+        <a href="https://github.com/ktranfaglia1/COSC425" target="_blank"> Source </a>  <!-- Link to the source code page -->
         <a href="../src/about.html"> About </a>  <!-- Link to the about page -->
       </div>
     </header>
+    <!-- Central image for homepage to showcase simulated products -->
+    <div class="image_container"> 
+      <img src="../images/simulated_quadrant.png" alt="Logo" width="275" height="275">
+    </div>
+    <h5> Cellular Automata Simulators </h5>
+    <div class="p2"> 
+      Generate diverse and complex discrete mathematical models using simple cellular automata rules 
+    </div>
+    <hr>
+    <!-- Large buttons that direct to simulators -->
+    <div class="input_container">
+      <a href="../src/wolfram1D.html" class="navigate_button"> Wolfram's Nearest Neighbor 1D </a>
+      <a href="../src/wolfram2D.html" class="navigate_button"> Wolfram's Nearest Neighbor 2D </a>
+      <a href="../src/conway.html" class="navigate_button"> Conway's Game of Life </a>
+    </div>
   </body>
 </html>
